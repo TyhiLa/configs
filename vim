@@ -1,3 +1,4 @@
+"-----------------basic setting----------------------
 set nu
 set nocompatible
 filetype off
@@ -13,14 +14,14 @@ set smartindent
 set scrolloff=4
 set showmatch
 
-" key maps
+"--------------------key maps-------------------------
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 inoremap jk <ESC>
 
-" python features
+"--------------------python features------------------
 let python_highlight_all=1
 au Filetype python set tabstop=4
 au Filetype python set softtabstop=4
@@ -41,7 +42,7 @@ au Filetype cpp set fileformat=unix
 autocmd Filetype cpp set foldmethod=indent
 autocmd Filetype cpp set foldlevel=99
 
-" one-press run (most lang)
+"------------------------one-press run---------------------
 map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
         exec "w"
@@ -49,34 +50,20 @@ func! CompileRunGcc()
 		if !isdirectory('build')
 			execute "!mkdir build"
 		endif
-                exec "!g++ % -o ./build/%< && time ./build/%<"
-                " exec "!time ./build/%<"
+                exec "!clear && g++ % -o ./build/%< && time ./build/%<"
         elseif &filetype == 'cpp'
 		if !isdirectory('build')
 			execute "!mkdir build"
 		endif
-                exec "!g++ % -o ./build/%< && time ./build/%<"
-                " exec "!time ./build/%<"
-        elseif &filetype == 'java'
-                exec "!javac %"
-                exec "!time java %<"
+                exec "!clear && g++ % -o ./build/%< && time ./build/%<"
         elseif &filetype == 'sh'
-                :!time bash %
+                exec "!clear && time bash %""
         elseif &filetype == 'python'
-                exec "!clear"
-                exec "!time python3 %"
-        elseif &filetype == 'html'
-                exec "!firefox % &"
-        elseif &filetype == 'go'
-                " exec "!go build %<"
-                exec "!time go run %"
-        elseif &filetype == 'mkd'
-                exec "!~/.vim/markdown.pl % > %.html &"
-                exec "!firefox %.html &"
+                exec "!clear && time python3 %"
         endif
 endfunc
 
-" add file templates
+"------------------------add file templates---------------------
 autocmd BufNewFile * exec ":call SetTitle()" 
 func SetTitle()
     if &filetype == 'sh' 
@@ -132,14 +119,13 @@ endfunc
 autocmd BufNewFile * normal G
 
 
-" Vundle Plugin Manager
+"----------------Vundle Plugin Manager-----------------
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " Plugins
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'w0rp/ale'
-"Plugin 'ycm-core/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'vim-airline/vim-airline'
@@ -150,10 +136,12 @@ Plugin 'vim-autoformat/vim-autoformat'
 Plugin 'othree/html5.vim'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'ap/vim-css-color'
+Plugin 'stevearc/vim-arduino'
 Plugin 'sudar/vim-arduino-syntax'
 call vundle#end()
 filetype plugin indent on
 
+"-----------------airline------------------
 nnoremap <F6> :Autoformat<CR>
 let g:autoformat_autoindent = 4
 let g:autoformat_retab = 4
@@ -173,6 +161,7 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.maxlinenr = ''
 let g:airline_symbols.dirty= '⚡'
 
+" -------------------nerd tree------------------
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 
@@ -196,24 +185,9 @@ let g:NERDTrimTrailingWhitespace = 1
 
 " Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
-
-
-"set Nerdtree
-"autocmd VimEnter * NERDTree
-"letNERDTreeWinPos="left"
 map <C-n> :NERDTreeToggle<CR>
 
-" -------YouCompeleteMe--------
-let g:ycm_clangd_binary_path="/data/data/com.termux/files/usr/bin/clangd"
-" disable ycm syntax check
-let g:ycm_enable_diagnostic_signs = 0
-let g:ycm_enable_diagnostic_highlighting = 0
-
-"ycmd setting
-let g:ycm_error_symbol = 'K'
-let g:ycm_warning_symbol = 'O'
-
-" ------------Ale-------------
+" --------------------Ale-----------------------
 "always display sign column
 let g:ale_sig_column_always = 0
 let g:ale_set_highlights = 1
